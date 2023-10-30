@@ -11,7 +11,7 @@ import java.util.*;
 
 public class EmailUtils {
     private static final String FROM = "Chaplain04@gmail.com";
-    private static final String PASSWORD = "dtyp qmsr ykgf dwjt";
+    private static final String PASSWORD = "**** **** **** ****";
     private static final Properties PROPS = new Properties();
 
     static {
