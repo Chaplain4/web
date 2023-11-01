@@ -6,12 +6,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 public class EmailUtils {
     private static final String FROM = "Chaplain04@gmail.com";
-    private static final String PASSWORD = "**** **** **** ****";
+    private static final String PASSWORD = "iwsk azez sivj cwus";
     private static final Properties PROPS = new Properties();
 
     static {
@@ -64,29 +65,27 @@ public class EmailUtils {
             message.setSubject(subject);
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(msg, "text/html");
-            // messageBodyPart.setText(msg);
 
-            MimeBodyPart attachmentPart = new MimeBodyPart();
-            if (attachmentPathname != null)
-                attachmentPart.attachFile(new File(attachmentPathname));
+            messageBodyPart.setText(msg);
+            MimeBodyPart ap = new MimeBodyPart();
+            if (attachmentPathname != null) {
+                ap.attachFile(new File(attachmentPathname));
 
+            }
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             if (attachmentPathname != null)
-                multipart.addBodyPart(attachmentPart);
-
+                multipart.addBodyPart(ap);
             message.setContent(multipart);
+            message.setText(msg);
+            message.setContent(msg, "text/html");
 
 
-//          message.setText(msg);
-//          message.setContent(msg, "text/html");
             Transport.send(message);
             System.out.println("Done");
 
         } catch (MessagingException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
