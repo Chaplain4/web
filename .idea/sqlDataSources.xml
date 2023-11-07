@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="9d111c6e-5209-4f48-9cf7-975b5a5af468" />
+          <option name="name" value="dogs_db" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/main/homework/dogs_db.sql" />
+            </array>
+          </option>
+        </State>
+      </list>
+    </option>
+  </component>
+</project>
