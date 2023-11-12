@@ -12,6 +12,15 @@
             </array>
           </option>
         </State>
+        <State>
+          <option name="id" value="f5fc5a79-1815-4673-983a-9acad9745065" />
+          <option name="name" value="accounts_db" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/main/webapp/accounts_db.sql" />
+            </array>
+          </option>
+        </State>
       </list>
     </option>
   </component>

@@ -1,9 +1,14 @@
 package main.org.example.jdbc.impl;
 
+import lombok.SneakyThrows;
 import main.org.example.jdbc.abs.RoleDAO;
 import main.org.example.model.Role;
+import main.org.example.util.AccountsDBUtils;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +23,8 @@ public class RoleDAOImpl implements RoleDAO {
 
     @Override
     public Role findByName(String name) {
+        RoleDAOImpl rdi = new RoleDAOImpl();
+        Set<Role> roles = rdi.all();
         for (Role role : roles)
             if (role.getName().equalsIgnoreCase(name))
                 return role;
@@ -31,6 +38,8 @@ public class RoleDAOImpl implements RoleDAO {
 
     @Override
     public Role findById(Integer key) {
+        RoleDAOImpl rdi = new RoleDAOImpl();
+        Set<Role> roles = rdi.all();
         for (Role role : roles)
             if (role.getId().equals(key))
                 return role;
@@ -47,9 +56,27 @@ public class RoleDAOImpl implements RoleDAO {
         return false;
     }
 
+
     @Override
     public Set<Role> all() {
-        return new HashSet<>(roles);
+        Set<Role> roles = new HashSet<>();
+        try {
+        Connection connection = AccountsDBUtils.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet rs1 = statement.executeQuery("SELECT * FROM roles");
+        while (rs1.next()) {
+            Role role = new Role();
+            role.setId(rs1.getInt("id"));
+            role.setName(rs1.getString("name"));
+            role.setDetails(rs1.getString("details"));
+            role.setCreated_ts(rs1.getTimestamp("created_ts"));
+            role.setUpdated_ts(rs1.getTimestamp("updated_ts"));
+            roles.add(role);
+        }
+        return roles;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

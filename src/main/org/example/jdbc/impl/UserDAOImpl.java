@@ -1,10 +1,13 @@
 package main.org.example.jdbc.impl;
 
+import main.homework.model.Dog;
 import main.org.example.jdbc.abs.UserDAO;
 import main.org.example.model.Role;
 import main.org.example.model.User;
+import main.org.example.util.AccountsDBUtils;
+import main.org.example.util.DBUtils;
 
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -84,12 +87,39 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean update(User type) {
+    public boolean update(User user) {
         return false;
     }
 
     @Override
     public Set<User> all() {
-        return new HashSet<User>(users);
+        try {
+            Set<User> users = new HashSet<>();
+            RoleDAOImpl rdi = new RoleDAOImpl();
+            Set<Role> roles = rdi.all();
+            Connection connection = AccountsDBUtils.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM accounts");
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPwd(rs.getString("pwd"));
+                user.setDetails(rs.getString("details"));
+                for (Role role : roles) {
+                    if (role.getName().equals(rs.getString("role"))) {
+                        user.setRole(role);
+                    }
+                }
+                user.setIsActive(rs.getBoolean("is_active"));
+                user.setCreated_ts(rs.getTimestamp("created ts"));
+                user.setUpdated_ts(rs.getTimestamp("updated ts"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

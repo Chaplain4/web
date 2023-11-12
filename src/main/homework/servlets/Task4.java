@@ -1,9 +1,7 @@
 package main.homework.servlets;
 
-import main.homework.DogDAO;
 import main.homework.DogDAOImpl;
 import main.homework.model.Dog;
-import main.org.example.util.DBUtils;
 import main.org.example.util.HTMLTableBuilder;
 
 import javax.servlet.RequestDispatcher;
@@ -14,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
