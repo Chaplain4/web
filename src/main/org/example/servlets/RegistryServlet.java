@@ -1,6 +1,6 @@
 package main.org.example.servlets;
 
-import main.org.example.jdbc.impl.UserDAOImpl;
+import main.org.example.jdbc.impl.UserDAOImplDummy;
 import main.org.example.model.User;
 import main.org.example.util.EmailUtils;
 import main.org.example.util.EncryptDecryptUtils;
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/registry")
 public class RegistryServlet extends HttpServlet {
-    private UserDAOImpl dao = new UserDAOImpl();
+    private UserDAOImplDummy dao = new UserDAOImplDummy();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

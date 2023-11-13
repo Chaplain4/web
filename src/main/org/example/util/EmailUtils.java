@@ -5,8 +5,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -69,10 +67,10 @@ public class EmailUtils {
 
             messageBodyPart.setText(msg);
             MimeBodyPart ap = new MimeBodyPart();
-            if (attachmentPathname != null) {
-                ap.attachFile(new File(attachmentPathname));
-
-            }
+//            if (attachmentPathname != null) {
+//                ap.attachFile(new File(attachmentPathname));
+//
+//            }
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             if (attachmentPathname != null)
@@ -85,7 +83,7 @@ public class EmailUtils {
             Transport.send(message);
             System.out.println("Done");
 
-        } catch (MessagingException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -21,6 +21,15 @@
             </array>
           </option>
         </State>
+        <State>
+          <option name="id" value="56602361-caba-4893-a97e-c98d406b6aae" />
+          <option name="name" value="users" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/main/org/example/users.sql" />
+            </array>
+          </option>
+        </State>
       </list>
     </option>
   </component>
