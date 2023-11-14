@@ -50,12 +50,15 @@ public class EncryptDecryptUtils {
      * @throws BadPaddingException
      * @throws IllegalBlockSizeException
      */
+
     public static String encrypt(String toBeEncrypt) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
             byte[] encrypted = cipher.doFinal(toBeEncrypt.getBytes());
-            return Base64.encodeBase64String(encrypted);
-        } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            return Base64.encodeBase64URLSafeString(encrypted);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

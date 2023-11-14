@@ -7,7 +7,7 @@ import java.sql.*;
 public class DBUtils {
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "";
-    public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/dogs_db";
+    public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/users_db";
 
     private DBUtils() {
 
