@@ -85,7 +85,7 @@ public class HTMLTableBuilder {
     }
 
 
-    public void addRowValues(String... values) {
+    public void addRowValues(Object... values) {
         rowsCounter++;
         if (values.length != columns) {
             System.out.println("Error column lenth");
@@ -95,7 +95,7 @@ public class HTMLTableBuilder {
                 int index = lastIndex + ROW_END.length();
                 StringBuilder sb = new StringBuilder();
                 sb.append(rowsCounter % 2 == 0 ? ROW_trBgcolorWhite_START : ROW_trBgcolorGray_START);
-                for (String value : values) {
+                for (Object value : values) {
                     sb.append(COLUMN_START);
                     sb.append(value);
                     sb.append(COLUMN_END);

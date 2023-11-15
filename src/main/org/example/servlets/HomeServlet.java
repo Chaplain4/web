@@ -24,12 +24,18 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Server time : " + new Date());
-        resp.getWriter().println("Hi there, this is Servlets response. " + new Date());
+        String userName = req.getParameter("name");
+        resp.getWriter().println("Hi there, " + (userName == null ? "Stranger" : userName) + " this is Servlets response. " + new Date());
     }
 
     @Override
     public void destroy() {
         super.destroy();
         System.out.println("destroy");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       doGet(req,resp);
     }
 }
