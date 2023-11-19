@@ -2,27 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Registry</title>
     <link rel="stylesheet" href=css/Style.css>
 </head>
 <body>
-
-<form action="login" method="post">
+<hgroup>
+    <h1>Reset password</h1>
+</hgroup>
+<form action="reset" method="post"> <!-- Submit will call doPost() method. All parameters will be in request body! -->
     <div class="group">
         <input type="email" name="email"><span class="highlight"></span><span class="bar"></span>
         <label>Email</label>
     </div>
-    <div class="group">
-        <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
-        <label>password</label>
-    </div>
-    <button type="submit" class="button buttonBlue">Login
+    <button type="submit" class="button buttonBlue">Reset
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
-</form>
-<form action="reset" method="get">
-    <p style="text-align: center">
-        <button>I forgot my password</button>
 </form>
 <footer><a href="http://www.polymer-project.org/" target="_blank"><img
         src="https://www.polymer-project.org/images/logos/p-logo.svg"></a>

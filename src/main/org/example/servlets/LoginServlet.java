@@ -48,8 +48,14 @@ public class LoginServlet extends HttpServlet {
                 return; // ?
             }
             // User exists and active
-            req.setAttribute("name", user.getName());
-            forward(req, resp, "/home?name=" + user.getName());
+            if (user.getRole().getName().equals("Admin")){
+            //    forward(req, resp, "/admin?name=" + user.getName());
+            } else if (user.getRole().getName().equals("Manager")){
+                forward(req, resp, "/manager.html?name=" + user.getName());
+            } else {
+                forward(req, resp, "/general.html?name=" + user.getName());
+            }
+
         } else {
             ServletUtils.include(req, resp, "/login.html", "Sorry, you are not activated yet! Please check you email or <a href='activate'>activate your account</a>");
         }

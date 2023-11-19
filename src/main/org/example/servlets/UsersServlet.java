@@ -1,11 +1,9 @@
 package main.org.example.servlets;
 
-import main.org.example.jdbc.dao.impl.UserDAOImpl;
+
 import main.org.example.jdbc.impl.UserDAOImpl;
 import main.org.example.model.User;
 import main.org.example.util.HTMLTableBuilder;
-import main.org.example.util.IOUtils;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,17 +29,19 @@ public class UsersServlet  extends HttpServlet {
                         user.getDetails(), user.getIsActive() ? "YES": "NO",
                         user.getRole().getName(), user.getCreated_ts(), user.getUpdated_ts());
             }
-
-            String template = IOUtils.readFile("D:\\web\\src\\main\\webapp\\users.html");
+            String template = "<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
+                    "    <title>Users</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<USERS>\n" +
+                    "</body>\n" +
+                    "</html>";
             template = template.replace("<USERS>", htmlTableBuilder.build());
-
             resp.setContentType("text/html");
             resp.getWriter().println(template);
-
-
-
         }
-
-
     }
 }
