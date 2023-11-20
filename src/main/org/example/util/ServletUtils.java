@@ -27,6 +27,10 @@ public class ServletUtils {
         }
     }
 
+    public static void openJSP(HttpServletRequest req, HttpServletResponse resp, String jspName) {
+        forward(req, resp, "/" + jspName + ".jsp");
+    }
+
     public static void include(HttpServletRequest req, HttpServletResponse resp, String path, String msg) {
         info(req, "INCLUDE to -> " + path);
         try {
