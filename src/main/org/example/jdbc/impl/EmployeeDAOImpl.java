@@ -23,10 +23,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Connection connection = DBUtils.getConnection();
         try {
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO `employees` (`id`, `name`, `last_name`, `age`, `office_id`, `passport_id`, " +
-                    "`updated_ts`, `created_ts`) VALUES ('" + employee.getId() + "', '" + employee.getName() + "', '" +
+            String sql = "INSERT INTO `employees` ( `name`, `last_name`, `age`, `office_id`, `passport_id`, " +
+                    " `created_ts`) VALUES ('" + employee.getName() + "', '" +
                     employee.getLastName() + "', '" + employee.getAge() + "', '" + employee.getOffice().getId() + "', '" +
-                    employee.getPassport().getId() + "', '" + employee.getUpdatedTs() + "', " + employee.getCreatedTs() + ")";
+                    employee.getPassport().getId() + "',  CURRENT_TIMESTAMP )";
             int count = statement.executeUpdate(sql);
             return count == 1;
         } catch (SQLException e) {

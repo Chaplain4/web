@@ -48,6 +48,8 @@
     <% } %>
 </table>
 <% } %>
-
+<br>
+<td><a href=<%="employees?action=C"%>> CREATE </a>
+</td>
 </body>
 </html>

@@ -1,10 +1,10 @@
 package main.org.example.jdbc.impl;
 
 
-
 import main.org.example.jdbc.abs.PassportDAO;
 import main.org.example.model.Passport;
 import main.org.example.util.DBUtils;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,10 +19,30 @@ public class PassportDAOImpl implements PassportDAO {
         try {
             Statement statement = connection.createStatement();
             String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
-                    "(NULL, " + passport.getPersonalID() + ", "+  passport.getIndID()  +" , " + passport.getExpTS() +
-                    ", " + passport.getCreatedTS() +")";
+                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
+                    "', CURRENT_DATE)";
             int count = statement.executeUpdate(sql);
             return count == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public int createPassport2(Passport passport) {
+        Connection connection = DBUtils.getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
+                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
+                    "', CURRENT_DATE)";
+            int count = statement.executeUpdate(sql);
+            if (count == 1) {
+                ResultSet rs = statement.executeQuery("SELECT * FROM `passport` WHERE id = (SELECT MAX(id) FROM `passport`)");
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else return -1;
+            } else return -1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +77,7 @@ public class PassportDAOImpl implements PassportDAO {
             statement.execute("DELETE FROM passport where id =" + id);
             if (findById(id) == null) {
                 return true;
-            }
-            else return false;
+            } else return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -73,8 +92,7 @@ public class PassportDAOImpl implements PassportDAO {
                     "'" + passport.getExpTS() + "', created_ts = '" + passport.getCreatedTS() + "'  WHERE id = " + passport.getId());
             if (findById(passport.getId()).equals(passport)) {
                 return true;
-            }
-            else return false;
+            } else return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
