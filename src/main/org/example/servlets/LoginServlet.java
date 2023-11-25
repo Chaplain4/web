@@ -51,7 +51,6 @@ public class LoginServlet extends HttpServlet {
             // User exists and active.
             HttpSession session = req.getSession(); //return current Session or new Session with 30 min timeout by default
             System.out.println("Login into session # " + session.getId() + "successful!");
-            session.setMaxInactiveInterval(15); // timeout after 15 sec
             //Saving user object into session
             session.setAttribute("logged_user", user);
             forward(req, resp, "/employees"); // forward to servlet

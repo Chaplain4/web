@@ -45,7 +45,7 @@ public class ServletUtils {
     }
 
     public static User getUserFromSession(HttpServletRequest request) {
-        Object val = request.getSession().getAttribute("logged-user");
+        Object val = request.getSession().getAttribute("logged_user");
         if (val == null) {
             return null;
         } else
