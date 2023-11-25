@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static main.org.example.util.ServletUtils.*;
@@ -47,15 +48,13 @@ public class LoginServlet extends HttpServlet {
                 ServletUtils.include(req, resp, "/login.html", "Sorry, you are not activated yet! Please check you email or <a href='activate'>activate your account</a>");
                 return; // ?
             }
-            // User exists and active
-            if (user.getRole().getName().equals("Admin")){
-            //    forward(req, resp, "/admin?name=" + user.getName());
-            } else if (user.getRole().getName().equals("Manager")){
-                forward(req, resp, "/manager.html?name=" + user.getName());
-            } else {
-                forward(req, resp, "/general.html?name=" + user.getName());
-            }
-
+            // User exists and active.
+            HttpSession session = req.getSession(); //return current Session or new Session with 30 min timeout by default
+            System.out.println("Login into session # " + session.getId() + "successful!");
+            session.setMaxInactiveInterval(15); // timeout after 15 sec
+            //Saving user object into session
+            session.setAttribute("logged_user", user);
+            forward(req, resp, "/employees"); // forward to servlet
         } else {
             ServletUtils.include(req, resp, "/login.html", "Sorry, you are not activated yet! Please check you email or <a href='activate'>activate your account</a>");
         }

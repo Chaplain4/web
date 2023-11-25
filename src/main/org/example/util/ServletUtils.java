@@ -1,5 +1,7 @@
 package main.org.example.util;
 
+import main.org.example.model.User;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,5 +42,17 @@ public class ServletUtils {
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
+    }
+
+    public static User getUserFromSession(HttpServletRequest request) {
+        Object val = request.getSession().getAttribute("logged-user");
+        if (val == null) {
+            return null;
+        } else
+        return (User) val;
+    }
+
+    public static boolean isUserInSession(HttpServletRequest request){
+        return getUserFromSession(request) != null;
     }
 }

@@ -7,6 +7,7 @@ import main.org.example.jdbc.abs.PassportDAO;
 import main.org.example.model.Employee;
 import main.org.example.model.Office;
 import main.org.example.util.DBUtils;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +21,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean createEmployee(Employee employee) {
-        Connection connection = DBUtils.getConnection();
-        try {
+
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "INSERT INTO `employees` ( `name`, `last_name`, `age`, `office_id`, `passport_id`, " +
                     " `created_ts`) VALUES ('" + employee.getName() + "', '" +
@@ -36,8 +37,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee findById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM employees where id =" + id);
             if (rs.next()) {
@@ -51,14 +51,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean deleteById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM employees where id =" + id);
             if (findById(id) == null) {
                 return true;
-            }
-            else return false;
+            } else return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -66,16 +65,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()){
             Statement statement = connection.createStatement();
-            statement.execute("UPDATE employees SET name = '"+employee.getName()+"', last_name = '" + employee.getLastName() +
+            statement.execute("UPDATE employees SET name = '" + employee.getName() + "', last_name = '" + employee.getLastName() +
                     "', age = '" + employee.getAge() + "', office_id = '" + employee.getOffice().getId() + "', passport_id = '" +
                     employee.getPassport().getId() + "' WHERE id = " + employee.getId());
             if (findById(employee.getId()).equals(employee)) {
                 return true;
-            }
-            else return false;
+            } else return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

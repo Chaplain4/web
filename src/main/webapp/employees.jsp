@@ -1,5 +1,7 @@
 <%@ page import="main.org.example.model.Employee" %>
-<%@ page import="java.util.Set" %><%--
+<%@ page import="java.util.Set" %>
+<%@ page import="main.org.example.util.ServletUtils" %>
+<%@ page import="main.org.example.model.User" %><%--
   Created by IntelliJ IDEA.
   User: sharlan_a
   Date: 20.11.2023
@@ -15,6 +17,10 @@
 <body>
 
 <% Set<Employee> empls = (Set<Employee>) request.getAttribute("empls");
+    User user = ServletUtils.getUserFromSession(request);
+    if (user.getRole().getName().equals("Admin")) {
+
+    }
     if(empls.isEmpty()) {%>
 <h1>No Employees found!</h1>
 <%} else {%>
@@ -51,5 +57,7 @@
 <br>
 <td><a href=<%="employees?action=C"%>> CREATE </a>
 </td>
+<br>
+<td><a href="logout">logout</a></td>
 </body>
 </html>

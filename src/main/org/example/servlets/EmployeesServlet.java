@@ -6,6 +6,7 @@ import main.org.example.jdbc.impl.PassportDAOImpl;
 import main.org.example.model.Employee;
 import main.org.example.model.Office;
 import main.org.example.model.Passport;
+import main.org.example.util.DBUtils;
 import main.org.example.util.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -25,7 +26,12 @@ public class EmployeesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        // if user is not logged in
+        if (!ServletUtils.isUserInSession(req)) {
+            req.setAttribute("msg", "Please <a href='login'> login </a> to see Empls list");
+            ServletUtils.openJSP(req, resp, "generic-message");
+            return;
+        }
         if (req.getParameter("action") != null) {
             switch (req.getParameter("action")) {
                 case "D":
@@ -49,6 +55,11 @@ public class EmployeesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //FIXME : if it's not Employee creation
+        if (req.getParameter("name") == null) {
+            doGet(req, resp);
+            return;
+        }
         Passport passport = new Passport();
         passport.setIndID((String) req.getParameter("ind_id"));
         passport.setPersonalID((String) req.getParameter("personal_id"));

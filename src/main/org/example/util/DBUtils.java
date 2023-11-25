@@ -26,7 +26,7 @@ public class DBUtils {
     }
 
     public static void release(Connection conn, Statement stmt, ResultSet rs) {
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             if (conn != null) {
                 System.out.println("Connection " + conn + " is closed");
                 conn.close();
