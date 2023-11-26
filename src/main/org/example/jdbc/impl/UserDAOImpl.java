@@ -118,12 +118,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("UPDATE users SET name = '" + user.getName() + "', email = '" + user.getEmail() +
                     "', pwd = '" + user.getPwd() + "', details = '" + user.getDetails() + "', role = '" + user.getRole().getName() +
-                    "', is_active = '" + (user.getIsActive() ? 1 : 0)  + "', created_ts = '" + user.getCreated_ts() + "', updated_ts = CURRENT_TIMESTAMP WHERE id = " + user.getId());
+                    "', is_active = '" + (user.getIsActive() ? 1 : 0) + "', created_ts = '" + user.getCreated_ts() + "', updated_ts = CURRENT_TIMESTAMP WHERE id = " + user.getId());
             if (findById(user.getId()).equals(user)) {
                 return true;
             } else return false;
@@ -135,10 +134,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Set<User> all() {
-
         Set<User> users = new HashSet<>();
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users");
             while (rs.next()) {

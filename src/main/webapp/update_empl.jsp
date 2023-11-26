@@ -11,13 +11,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Employee</title>
+    <title>Update Employee</title>
     <!-- <link rel="stylesheet" href="css/Style.css"> -->
 </head>
 
 <body>
 <% Employee employee = (Employee) request.getAttribute("empl");%>
-<form action="employees" method="post">
+<form action="update" method="post">
     <!-- Submit will call doPost() method. All parameters will be in request body!  -->
     <div class="group">
         <label>Name</label>
@@ -36,11 +36,9 @@
 
     <div class="group">
         <select name="office">
-
             <% for (Office office : (Set<Office>) request.getAttribute("offices")) {
                 if (office.equals(employee.getOffice())) {%>
             <option value='<%=office.getId()%>' selected><%=office.getId() + " - " + office.getTitle()%>
-
                     <%} else {%>
             <option value='<%=office.getId()%>'><%=office.getId() + " - " + office.getTitle()%>
             </option>
@@ -68,9 +66,8 @@
             class="highlight"></span><span class="bar"></span>
         <label>Exp Date</label>
     </div>
-
-
-    <button type="submit" class="button buttonBlue">Create
+    <input type="hidden" name="id" value="<%=employee.getId()%>" />
+    <button type="submit" class="button buttonBlue">Update
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
 </form>

@@ -14,8 +14,7 @@ import java.util.Set;
 public class OfficeDAOImpl implements OfficeDAO {
     @Override
     public boolean createOffice(Office office) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "INSERT INTO offices (title, address, `phone 1`, `phone 2`, postal_code, created_ts) "
                     + "VALUES ('" + office.getTitle() + "', '" + office.getAddress()
@@ -30,8 +29,7 @@ public class OfficeDAOImpl implements OfficeDAO {
 
     @Override
     public Office findById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM offices where id =" + id);
             if (rs.next()) {
@@ -54,8 +52,7 @@ public class OfficeDAOImpl implements OfficeDAO {
 
     @Override
     public boolean deleteById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM offices where id =" + id);
             if (findById(id) == null) {
@@ -68,8 +65,7 @@ public class OfficeDAOImpl implements OfficeDAO {
 
     @Override
     public boolean updateOffice(Office office) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("UPDATE offices SET title = '" + office.getTitle() + "', address = '" + office.getAddress() +
                     "', `phone 1` = '" + office.getPhone1() + "', `phone 2` = '" + office.getPhone2() + "', postal_code = '" + office.getPostalCode() +
@@ -85,8 +81,7 @@ public class OfficeDAOImpl implements OfficeDAO {
     @Override
     public Set<Office> all() {
         Set<Office> offices = new HashSet<>();
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM offices");
             while (rs.next()) {

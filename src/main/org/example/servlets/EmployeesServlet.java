@@ -62,46 +62,24 @@ public class EmployeesServlet extends HttpServlet {
             doGet(req, resp);
             return;
         }
-        if ((req.getParameter("action")).equals("C")) {
-            Passport passport = new Passport();
-            passport.setIndID((String) req.getParameter("ind_id"));
-            passport.setPersonalID((String) req.getParameter("personal_id"));
-            String[] s1 = req.getParameter("exp_date").split("-");
-            Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
-            passport.setExpTS(date);
-            Date date1 = new Date(System.currentTimeMillis());
-            passport.setCreatedTS(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
-            Employee employee = new Employee();
-            employee.setName(req.getParameter("name"));
-            employee.setLastName(req.getParameter("last_name"));
-            employee.setAge(Integer.parseInt(req.getParameter("age")));
-            employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
-            employee.setPassport(pdi.findById(pdi.createPassport2(passport)));
-            if (edi.createEmployee(employee)) {
-                req.setAttribute("empls", edi.all());
-                ServletUtils.openJSP(req, resp, "employees");
-            }
-        } else if ((req.getParameter("action")).equals("U")) {
-            Employee employee = edi.findById(Integer.parseInt(req.getParameter("id")));
-            Passport passport = employee.getPassport();
-            passport.setIndID((String) req.getParameter("ind_id"));
-            passport.setPersonalID((String) req.getParameter("personal_id"));
-            String[] s1 = req.getParameter("exp_date").split("-");
-            Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
-            passport.setExpTS(date);
-            Date date1 = new Date(System.currentTimeMillis());
-            passport.setCreatedTS(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
-            employee.setName(req.getParameter("name"));
-            employee.setLastName(req.getParameter("last_name"));
-            employee.setAge(Integer.parseInt(req.getParameter("age")));
-            employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
-            if (!passport.equals(edi.findById(Integer.parseInt(req.getParameter("id"))).getPassport())) {
-                employee.setPassport(pdi.findById(pdi.createPassport2(passport)));
-            }
-            if (edi.updateEmployee(employee)) {
-                req.setAttribute("empls", edi.all());
-                ServletUtils.openJSP(req, resp, "employees");
-            }
+        Passport passport = new Passport();
+        passport.setIndID((String) req.getParameter("ind_id"));
+        passport.setPersonalID((String) req.getParameter("personal_id"));
+        String[] s1 = req.getParameter("exp_date").split("-");
+        Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
+        passport.setExpTS(date);
+        Date date1 = new Date(System.currentTimeMillis());
+        passport.setCreatedTS(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
+        Employee employee = new Employee();
+        employee.setName(req.getParameter("name"));
+        employee.setLastName(req.getParameter("last_name"));
+        employee.setAge(Integer.parseInt(req.getParameter("age")));
+        employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
+        employee.setPassport(pdi.findById(pdi.createPassport2(passport)));
+        if (edi.createEmployee(employee)) {
+            req.setAttribute("empls", edi.all());
+            ServletUtils.openJSP(req, resp, "employees");
         }
     }
 }
+

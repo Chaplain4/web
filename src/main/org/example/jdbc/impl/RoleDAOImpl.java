@@ -13,7 +13,7 @@ public class RoleDAOImpl implements RoleDAO {
 
     @Override
     public Role findByName(String name) {
-        try (Connection conn = DBUtils.getConnection();) {
+        try (Connection conn = DBUtils.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM roles WHERE name = ?"); {
                 pstmt.setString(1,name);
                 ResultSet rs = pstmt.executeQuery();

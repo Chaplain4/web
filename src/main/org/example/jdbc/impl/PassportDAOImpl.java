@@ -15,8 +15,7 @@ import java.util.Set;
 public class PassportDAOImpl implements PassportDAO {
     @Override
     public boolean createPassport(Passport passport) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
                     "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
@@ -30,8 +29,7 @@ public class PassportDAOImpl implements PassportDAO {
 
 
     public int createPassport2(Passport passport) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
                     "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
@@ -50,8 +48,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public Passport findById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM passport where id =" + id);
             if (rs.next()) {
@@ -71,8 +68,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public boolean deleteById(int id) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try(Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM passport where id =" + id);
             if (findById(id) == null) {
@@ -85,8 +81,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public boolean updatePassport(Passport passport) {
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()){
             Statement statement = connection.createStatement();
             statement.execute("UPDATE passport SET personal_id = '" + passport.getPersonalID() + "', ind_id = '" + passport.getIndID() + "', exp_ts = " +
                     "'" + passport.getExpTS() + "', created_ts = '" + passport.getCreatedTS() + "'  WHERE id = " + passport.getId());
@@ -101,8 +96,7 @@ public class PassportDAOImpl implements PassportDAO {
     @Override
     public Set<Passport> all() {
         Set<Passport> passports = new HashSet<>();
-        Connection connection = DBUtils.getConnection();
-        try {
+        try (Connection connection = DBUtils.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM passport");
             while (rs.next()) {
