@@ -17,14 +17,12 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1 st Check if user logged in session at all
         HttpSession session = req.getSession();
-        if (session.getAttribute("logged_user") == null) {
+        if (!ServletUtils.isUserInSession(req)) {
             System.out.println("can't logout");
             ServletUtils.forward(req, resp, "/login.html");
         } else {
-            System.out.println("Logout of session # " + session.getId() + "successful!");
-            session.invalidate();
-            req.setAttribute("msg", "Logout successful!");
-            ServletUtils.openJSP(req, resp, "generic-message");
+            ServletUtils.invalidateSession(req);
+            ServletUtils.openGenericMessageJSP(req, resp, "Logout successful");
         }
     }
 }

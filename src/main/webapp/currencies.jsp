@@ -13,6 +13,7 @@
 
 </head>
 <body>
+<jsp:include page="header.jsp"></jsp:include>
 <h2>Currencies Date: <%= getCurrentServerDate()%>
 </h2>
 <!--Declaration-->

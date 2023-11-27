@@ -36,18 +36,24 @@ public class EmployeesServlet extends HttpServlet {
         if (req.getParameter("action") != null) {
             switch (req.getParameter("action")) {
                 case "D":
-                    edi.deleteById(Integer.parseInt(req.getParameter("id")));
+                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin")) {
+                        edi.deleteById(Integer.parseInt(req.getParameter("id")));
+                    } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin");
                     break;
                 case "U":
-                    Employee employee = (Employee) edi.findById(Integer.parseInt(req.getParameter("id")));
-                    req.setAttribute("offices", odi.all()); // add all offices into http request
-                    req.setAttribute("empl", employee);
-                    ServletUtils.openJSP(req, resp, "update_empl"); // forward to jsp create form
+                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
+                        Employee employee = (Employee) edi.findById(Integer.parseInt(req.getParameter("id")));
+                        req.setAttribute("offices", odi.all()); // add all offices into http request
+                        req.setAttribute("empl", employee);
+                        ServletUtils.openJSP(req, resp, "update_empl"); // forward to jsp create form
+                    } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     return;
                 case "C":
                     //create: show create form
-                    req.setAttribute("offices", odi.all()); // add all offices into http request
-                    ServletUtils.openJSP(req, resp, "create_empl"); // forward to jsp create form
+                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
+                        req.setAttribute("offices", odi.all()); // add all offices into http request
+                        ServletUtils.openJSP(req, resp, "create_empl"); // forward to jsp create form
+                    } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     return;
             }
         }

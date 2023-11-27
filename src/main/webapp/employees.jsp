@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/table_style.css">
 </head>
 <body>
-
+<jsp:include page="header.jsp"></jsp:include>
 <% Set<Employee> empls = (Set<Employee>) request.getAttribute("empls");
     User user = ServletUtils.getUserFromSession(request);
     if (empls.isEmpty()) {%>

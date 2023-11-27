@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+<jsp:include page="header.jsp"></jsp:include>
 <form action="employees" method="post">
     <!-- Submit will call doPost() method. All parameters will be in request body!  -->
     <div class="group">

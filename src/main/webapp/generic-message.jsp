@@ -11,6 +11,7 @@
     <title>INFO</title>
  </head>
 <body>
+<jsp:include page="header.jsp"></jsp:include>
 <h1><%=request.getAttribute("msg")%></h1>
 </body>
 </html>

@@ -16,6 +16,7 @@
 </head>
 
 <body>
+<jsp:include page="header.jsp"></jsp:include>
 <% Employee employee = (Employee) request.getAttribute("empl");%>
 <form action="update" method="post">
     <!-- Submit will call doPost() method. All parameters will be in request body!  -->
