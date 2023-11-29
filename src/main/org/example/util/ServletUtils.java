@@ -41,6 +41,11 @@ public class ServletUtils {
         openJSP(req, resp, "generic-message");
     }
 
+    public static void showError(HttpServletRequest request, HttpServletResponse response, String msg) {
+        request.setAttribute("error-msg", msg);
+        openJSP(request, response, "generic-error");
+    }
+
     public static void include(HttpServletRequest req, HttpServletResponse resp, String path, String msg) {
         info(req, "INCLUDE to -> " + path);
         try {

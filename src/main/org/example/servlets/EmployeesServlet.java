@@ -63,11 +63,6 @@ public class EmployeesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //FIXME : if it's not Employee creation
-        if (req.getParameter("name") == null) {
-            doGet(req, resp);
-            return;
-        }
         Passport passport = new Passport();
         passport.setIndID((String) req.getParameter("ind_id"));
         passport.setPersonalID((String) req.getParameter("personal_id"));

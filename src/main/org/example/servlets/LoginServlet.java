@@ -52,7 +52,8 @@ public class LoginServlet extends HttpServlet {
             //return current Session or new Session with 30 min timeout by default
             //Saving user object into session
             ServletUtils.saveUserInSession(req, user);
-            forward(req, resp, "/employees"); // forward to servlet
+            // forward(req, resp, "/employees"); // forward to servlet
+            resp.sendRedirect("employees");
         } else {
             ServletUtils.include(req, resp, "/login.html", "Sorry, you are not activated yet! Please check you email or <a href='activate'>activate your account</a>");
         }
