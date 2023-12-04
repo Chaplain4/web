@@ -1,7 +1,9 @@
 <%@ page import="main.org.example.model.Employee" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="main.org.example.util.ServletUtils" %>
-<%@ page import="main.org.example.model.User" %><%--
+<%@ page import="main.org.example.util.SecUtils" %>
+<%@ page import="main.org.example.model.User" %>
+<%@ page import="java.util.Arrays" %><%--
   Created by IntelliJ IDEA.
   User: sharlan_a
   Date: 20.11.2023
@@ -9,6 +11,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>Employees</title>
@@ -16,65 +20,53 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<% Set<Employee> empls = (Set<Employee>) request.getAttribute("empls");
-    User user = ServletUtils.getUserFromSession(request);
-    if (empls.isEmpty()) {%>
-<h1>No Employees found!</h1>
-<% } else {%>
 
-<table class="table_dark">
-    <tr>
-        <th>ID</th>
-        <th>NAME</th>
-        <th>LAST NAME</th>
-        <th>AGE</th>
-        <th>OFFICE</th>
-        <th>PASSPORT</th>
-        <th>UPDATED</th>
-        <th>CREATED</th>
-        <% if (user.getRole().getName().equals("Admin")) {%>
-        <th>Update</th>
-        <th>Delete</th>
-        <% } else if ((user.getRole().getName().equals("Manager"))) {%>
-        <th>Update</th>
-        <% } %>
-    </tr>
+<c:if test="${empls.isEmpty()}">
+    <h1>No Employees found!</h1>
+</c:if>
+<c:if test="${ not empls.isEmpty()}">
+    <table class="table_dark">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>LAST NAME</th>
+            <th>AGE</th>
+            <th>OFFICE</th>
+            <th>PASSPORT</th>
+            <th>UPDATED</th>
+            <th>CREATED</th>
+            <c:if test="${SecUtils.hasRole(request, 'Admin', 'Manager')}">
+                <th>Update</th>
+            </c:if>
+            <c:if test="${SecUtils.hasRole(request, 'Admin')}">
+                <th>Delete</th>
+            </c:if>
+        </tr>
+        <c:forEach items="${empls}" var="empl">
+            <tr>
+                <td>${empl.id}</td>
+                <td>${empl.name}</td>
+                <td>${empl.lastName}</td>
+                <td>${empl.age}</td>
+                <td>${empl.office.title}</td>
+                <td>${empl.passport.indID}</td>
+                <td>${empl.updatedTs}</td>
+                <td>${empl.createdTs}</td>
+                <c:if test="${SecUtils.hasRole(request, 'Admin', 'Manager')}">
+                <td><a href="employees?action=U&id=${empl.id}"> UPDATE </a></td>
+                </c:if>
+                <c:if test="${SecUtils.hasRole(request, 'Admin')}">
+                <td><a href= "employees?action=D&id=${empl.id}"> DELETE </a></td>
+                </c:if>
+            </tr>
+        </c:forEach>
 
-    <% for (Employee empl : empls) { %>
-    <tr>
-        <td><%=empl.getId()%>
-        </td>
-        <td><%=empl.getName()%>
-        </td>
-        <td><%=empl.getLastName()%>
-        </td>
-        <td><%=empl.getAge()%>
-        </td>
-        <td><%=empl.getOffice().getTitle()%>
-        </td>
-        <td><%=empl.getPassport().getIndID()%>
-        </td>
-        <td><%=empl.getUpdatedTs()%>
-        </td>
-        <td><%=empl.getCreatedTs()%>
-        </td>
-        <% if (user.getRole().getName().equals("Admin")) {%>
-        <td><a href=<%="employees?action=U&id=" + empl.getId()%>> UPDATE </a></td>
-        <td><a href=<%="employees?action=D&id=" + empl.getId()%>> DELETE </a></td>
-        <% } else if ((user.getRole().getName().equals("Manager"))) {%>
-        <td><a href=<%="employees?action=U&id=" + empl.getId()%>> UPDATE </a></td>
-        <% } %>
-    </tr>
-    <% } %>
-</table>
+    </table>
 
-<br>
-<% if (user.getRole().getName().equals("Admin")) {%>
-<td><a href=<%="employees?action=C"%>> CREATE </a>
-    <% }%>
-</td>
-<br>
-<%}%>
-<td><a href="logout">logout</a></td>
+<c:if test="${SecUtils.hasRole(request, 'Admin')}">
+<br><a href="employees?action=C"> CREATE </a>
+</c:if>
+
+</c:if>
 </body>
 </html>

@@ -28,11 +28,11 @@ public class EmployeesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // if user is not logged in
-        if (!ServletUtils.isUserInSession(req)) {
-            req.setAttribute("msg", "Please <a href='login'> login </a> to see Empls list");
-            ServletUtils.openJSP(req, resp, "generic-message");
-            return;
-        }
+//        if (!ServletUtils.isUserInSession(req)) {
+//            req.setAttribute("msg", "Please <a href='login'> login </a> to see Empls list");
+//            ServletUtils.openJSP(req, resp, "generic-message");
+//            return;
+//        }
         if (req.getParameter("action") != null) {
             switch (req.getParameter("action")) {
                 case "D":

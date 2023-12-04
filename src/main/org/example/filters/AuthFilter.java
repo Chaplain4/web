@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter("/*")
+//@WebFilter("/*")
 public class AuthFilter implements Filter {
     private PropsUtils props;
     private IOException ioException;
@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("init Auth Filter");
         try {
-            props = new PropsUtils("src/main/resources/ROLES_URL+PATTERNS_MAPPING.properties");
+            props = new PropsUtils("C:\\Users\\st\\Documents\\web1\\src\\main\\resources\\ROLES_URL+PATTERNS_MAPPING.properties");
         } catch (IOException e) {
             ioException = e;
             e.printStackTrace();
@@ -46,10 +46,31 @@ public class AuthFilter implements Filter {
 //        //pass forward
 
         //2 check for role
+        String path = req.getServletPath();
+        //allow content files
+        if(path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".html")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
         User user = ServletUtils.getUserFromSession(req);
+
         if (user == null) {
-            String path = req.getServletPath(); // employees
+          // employees
             if (props.getUrlPatterns("Unknown").contains(path)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                ServletUtils.showError(req, resp, "please login");
+            }
+        } else if (user.getRole().getName().equals("Admin")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else if (user.getRole().getName().equals("Manager")) {
+            if (props.getUrlPatterns("Manager").contains(path)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                ServletUtils.showError(req, resp, "please login");
+            }
+        } else if (user.getRole().getName().equals("General User")) {
+            if (props.getUrlPatterns("General User").contains(path)) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 ServletUtils.showError(req, resp, "please login");
