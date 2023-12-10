@@ -1,16 +1,12 @@
 package main.org.example.filters;
 
-import main.org.example.util.PropsUtils;
 import main.org.example.util.ServletUtils;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/img/*", "/css/*", "/js/*"})
+//@WebFilter(urlPatterns = {"/img/*", "/css/*", "/js/*"})
 public class ResourceFilter implements Filter {
 
 

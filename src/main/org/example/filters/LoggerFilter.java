@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter ("/*")
 public class LoggerFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
