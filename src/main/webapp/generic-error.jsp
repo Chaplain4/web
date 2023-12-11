@@ -12,6 +12,6 @@
  </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<h1><%=request.getAttribute("error_msg")%></h1>
+<h1><%=request.getAttribute("error-msg")%></h1>
 </body>
 </html>
