@@ -4,46 +4,64 @@ package main.org.example.jdbc.impl;
 import main.org.example.jdbc.abs.PassportDAO;
 import main.org.example.model.Passport;
 import main.org.example.util.DBUtils;
+import main.org.example.util.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PassportDAOImpl implements PassportDAO {
+    HibernateUtil hibernateUtil = new HibernateUtil();
+
     @Override
     public boolean createPassport(Passport passport) {
-        try (Connection connection = DBUtils.getConnection()) {
-            Statement statement = connection.createStatement();
-            String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
-                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
-                    "', CURRENT_DATE)";
-            int count = statement.executeUpdate(sql);
-            return count == 1;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+//        try (Connection connection = DBUtils.getConnection()) {
+//            Statement statement = connection.createStatement();
+//            String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
+//                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
+//                    "', CURRENT_DATE)";
+//            int count = statement.executeUpdate(sql);
+//            return count == 1;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+        try {
+            hibernateUtil.saveOrUpdate(passport);
+            return true;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return false;
         }
     }
 
 
     public int createPassport2(Passport passport) {
-        try (Connection connection = DBUtils.getConnection()) {
-            Statement statement = connection.createStatement();
-            String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
-                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
-                    "', CURRENT_DATE)";
-            int count = statement.executeUpdate(sql);
-            if (count == 1) {
-                ResultSet rs = statement.executeQuery("SELECT * FROM `passport` WHERE id = (SELECT MAX(id) FROM `passport`)");
-                if (rs.next()) {
-                    return rs.getInt("id");
-                } else return -1;
-            } else return -1;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+//        try (Connection connection = DBUtils.getConnection()) {
+//            Statement statement = connection.createStatement();
+//            String sql = "INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES " +
+//                    "(NULL, '" + passport.getPersonalID() + "', '" + passport.getIndID() + "' , '" + passport.getExpTS() +
+//                    "', CURRENT_DATE)";
+//            int count = statement.executeUpdate(sql);
+//            if (count == 1) {
+//                ResultSet rs = statement.executeQuery("SELECT * FROM `passport` WHERE id = (SELECT MAX(id) FROM `passport`)");
+//                if (rs.next()) {
+//                    return rs.getInt("id");
+//                } else return -1;
+//            } else return -1;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        try {
+            hibernateUtil.saveOrUpdate(passport);
+            return 1;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return -1;
         }
+
     }
 
     @Override
@@ -68,7 +86,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public boolean deleteById(int id) {
-        try(Connection connection = DBUtils.getConnection()) {
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM passport where id =" + id);
             if (findById(id) == null) {
@@ -81,7 +99,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public boolean updatePassport(Passport passport) {
-        try (Connection connection = DBUtils.getConnection()){
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("UPDATE passport SET personal_id = '" + passport.getPersonalID() + "', ind_id = '" + passport.getIndID() + "', exp_ts = " +
                     "'" + passport.getExpTS() + "', created_ts = '" + passport.getCreatedTS() + "'  WHERE id = " + passport.getId());
@@ -96,7 +114,7 @@ public class PassportDAOImpl implements PassportDAO {
     @Override
     public Set<Passport> all() {
         Set<Passport> passports = new HashSet<>();
-        try (Connection connection = DBUtils.getConnection()){
+        try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM passport");
             while (rs.next()) {
