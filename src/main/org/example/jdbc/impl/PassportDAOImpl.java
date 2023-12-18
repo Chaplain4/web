@@ -4,16 +4,14 @@ package main.org.example.jdbc.impl;
 import main.org.example.jdbc.abs.PassportDAO;
 import main.org.example.model.Passport;
 import main.org.example.util.DBUtils;
-import main.org.example.util.HibernateUtil;
+import main.org.example.service.JPAService;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PassportDAOImpl implements PassportDAO {
-    HibernateUtil hibernateUtil = new HibernateUtil();
+    JPAService JPAService = new JPAService();
 
     @Override
     public boolean createPassport(Passport passport) {
@@ -28,7 +26,7 @@ public class PassportDAOImpl implements PassportDAO {
 //            throw new RuntimeException(e);
 //        }
         try {
-            hibernateUtil.saveOrUpdate(passport);
+            JPAService.saveOrUpdate(passport);
             return true;
         } catch (Throwable t) {
             t.printStackTrace();
@@ -55,7 +53,7 @@ public class PassportDAOImpl implements PassportDAO {
 //        }
 
         try {
-            hibernateUtil.saveOrUpdate(passport);
+            JPAService.saveOrUpdate(passport);
             return 1;
         } catch (Throwable t) {
             t.printStackTrace();

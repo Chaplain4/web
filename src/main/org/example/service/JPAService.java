@@ -1,5 +1,7 @@
-package main.org.example.util;
+package main.org.example.service;
 
+import main.org.example.model.Employee;
+import main.org.example.model.Office;
 import main.org.example.model.Passport;
 import main.org.example.model.Student;
 import org.hibernate.Session;
@@ -17,10 +19,16 @@ import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class HibernateUtil {
+public class JPAService {
     // private static SessionFactory sessionFactory = null;
     private static EntityManagerFactory entityManagerFactory;
-
+    private static JPAService jpaService = null;
+    public static JPAService getInstance(){
+        if(jpaService == null) {
+            jpaService = new JPAService();
+        }
+        return jpaService;
+    }
     static  {
         if (entityManagerFactory == null) {
             //load
@@ -36,6 +44,8 @@ public class HibernateUtil {
             configuration.setProperties(props);
             configuration.addAnnotatedClass(Student.class);
             configuration.addAnnotatedClass(Passport.class);
+            configuration.addAnnotatedClass(Office.class);
+            configuration.addAnnotatedClass(Employee.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             entityManagerFactory = configuration.buildSessionFactory(serviceRegistry);
         }
@@ -112,6 +122,12 @@ public class HibernateUtil {
         });
     }
 
+    public <T> T findByCondition(Class<T> entityClass, String condition) {
+        return run(entityManager -> {
+            return (T) entityManager.createQuery("select o from " + entityClass.getSimpleName() + " o " + condition).getSingleResult();
+        });
+    }
+
     public <T> void deleteById(Class<T> entityClass, Object pk) {
         runInTransaction(entityManager -> {
             T entity = entityManager.find(entityClass, pk);
@@ -133,5 +149,9 @@ public class HibernateUtil {
         return run(entityManager -> {
             return entityManager.createQuery("select o from " + entityClass.getSimpleName() + " o ").getResultList();
         });
+    }
+
+    public void closeEntityManagerFactory(){
+        entityManagerFactory.close();
     }
 }
