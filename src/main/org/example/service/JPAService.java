@@ -1,9 +1,6 @@
 package main.org.example.service;
 
-import main.org.example.model.Employee;
-import main.org.example.model.Office;
-import main.org.example.model.Passport;
-import main.org.example.model.Student;
+import main.org.example.model.*;
 import org.hibernate.Session;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -46,6 +43,8 @@ public class JPAService {
             configuration.addAnnotatedClass(Passport.class);
             configuration.addAnnotatedClass(Office.class);
             configuration.addAnnotatedClass(Employee.class);
+            configuration.addAnnotatedClass(Role.class);
+            configuration.addAnnotatedClass(User.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             entityManagerFactory = configuration.buildSessionFactory(serviceRegistry);
         }

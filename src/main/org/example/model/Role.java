@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -18,15 +19,15 @@ public class Role {
     @Column() // name = "id" . т.к. имя в таблице и модели полностью совпадает, в скобках можно не писать
     private Integer id;
 
-    @Column()
+    @Column(name = "name")
     private String name;
 
-    @Column()
+    @Column(name = "details")
     private String details;
 
-    @Column()
+    @Column(name = "created_ts")
     private Timestamp created_ts;
 
-    @Column()
+    @Column(name = "updated_ts")
     private Timestamp updated_ts;
 }

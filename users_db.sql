@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Dec 10, 2023 at 09:05 PM
+-- Generation Time: Dec 18, 2023 at 11:56 PM
 -- Server version: 5.7.39-log
 -- PHP Version: 7.2.34
 
@@ -67,7 +67,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `name`, `last_name`, `age`, `office_id`, `passport_id`, `updated_ts`, `created_ts`) VALUES
-(1, 'Bill', 'Stranger', 35, 1, 1, NULL, '2023-09-25 18:28:44'),
+(1, 'Bill', 'Stranger', 35, 5, 1, NULL, '2023-12-18 20:18:50'),
 (2, 'Mike', 'Stranger', 55, 1, 2, NULL, '2023-09-25 18:28:44'),
 (3, 'John', 'Stranger', 35, 1, 3, NULL, '2023-09-27 16:55:28'),
 (4, 'Ivan', 'Ivanov', 37, 4, 4, NULL, '2023-09-27 16:58:47'),
@@ -85,8 +85,8 @@ CREATE TABLE `offices` (
   `id` int(11) NOT NULL,
   `title` varchar(64) NOT NULL,
   `address` varchar(256) NOT NULL,
-  `phone 1` varchar(128) NOT NULL,
-  `phone 2` varchar(128) NOT NULL,
+  `phone_1` varchar(128) NOT NULL,
+  `phone_2` varchar(128) NOT NULL,
   `postal_code` int(11) NOT NULL,
   `updated_ts` timestamp NULL DEFAULT NULL,
   `created_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -96,7 +96,7 @@ CREATE TABLE `offices` (
 -- Dumping data for table `offices`
 --
 
-INSERT INTO `offices` (`id`, `title`, `address`, `phone 1`, `phone 2`, `postal_code`, `updated_ts`, `created_ts`) VALUES
+INSERT INTO `offices` (`id`, `title`, `address`, `phone_1`, `phone_2`, `postal_code`, `updated_ts`, `created_ts`) VALUES
 (1, 'MAIN', 'BLR, Minsk, K.Marksa 32', '+375172416974', '+375172416975', 220111, NULL, '2023-09-27 16:32:41'),
 (2, 'DEP#1', 'BLR, Minsk, K.Marksa 34', '+375172417974', '+375172417975', 220111, NULL, '2023-09-27 16:32:41'),
 (3, 'DEP#2', 'BLR, Minsk, K.Marksa 35', '+375179046974', '+375172404975', 220111, NULL, '2023-09-27 16:32:41'),
@@ -126,7 +126,7 @@ CREATE TABLE `passport` (
 --
 
 INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES
-(1, 'MP9831021', 'A7897846OP23', '2024-01-20', '2014-01-20'),
+(1, '1323421', '156132as65426', '2024-02-22', '2019-02-22'),
 (2, 'MP9131021', 'A7897846OP13', '2024-09-20', '2014-09-20'),
 (3, 'MP9504021', 'A7897846OP93', '2024-03-20', '2014-03-20'),
 (4, 'MP9871451', 'A7897446OP23', '2024-02-20', '2014-02-20'),
@@ -180,6 +180,27 @@ CREATE TABLE `stats` (
   `languages_known` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `comments` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `stats`
+--
+
+INSERT INTO `stats` (`name`, `email`, `age`, `education`, `would_recommend`, `languages_known`, `comments`, `id`) VALUES
+('Arthur', 'chaplain04@gmail.com', 34, 'professional', 'No', 'C++, Java, JavaScript, Angular, Spring', 'comment', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -254,6 +275,13 @@ ALTER TABLE `stats`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_e2rndfrsx22acpq2ty1caeuyw` (`email`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -298,6 +326,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `stats`
 --
 ALTER TABLE `stats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

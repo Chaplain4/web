@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "offices")
 @ToString
-public class Office {
+public class Office  {
     public Office(int id) {
         this.id = id;
     }
@@ -35,18 +36,8 @@ public class Office {
     private String phone2;
     @Column(name = "postal_code")
     private int postalCode;
-
     @Column(name = "updated_ts")
     private Timestamp updatedTS;
     @Column(name ="created_ts")
     private Timestamp createdTS;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "office"
-            // orphanRemoval = true
-    )
-    private List<Employee> employeesList = new ArrayList<>();
-
 }

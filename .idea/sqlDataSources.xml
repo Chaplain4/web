@@ -4,29 +4,11 @@
     <option name="dataSources">
       <list>
         <State>
-          <option name="id" value="9d111c6e-5209-4f48-9cf7-975b5a5af468" />
-          <option name="name" value="dogs_db" />
-          <option name="urls">
-            <array>
-              <option value="file://$PROJECT_DIR$/src/main/homework/dogs_db.sql" />
-            </array>
-          </option>
-        </State>
-        <State>
-          <option name="id" value="56602361-caba-4893-a97e-c98d406b6aae" />
-          <option name="name" value="users" />
-          <option name="urls">
-            <array>
-              <option value="file://$PROJECT_DIR$/src/main/org/example/users.sql" />
-            </array>
-          </option>
-        </State>
-        <State>
-          <option name="id" value="3dc25795-5fb9-4484-9aee-9c045e20794b" />
+          <option name="id" value="72e7184a-4d15-4703-a020-60bd6733c756" />
           <option name="name" value="users_db" />
           <option name="urls">
             <array>
-              <option value="file://D:/OSPanel/userdata/temp/upload/users_db.sql" />
+              <option value="file://$PROJECT_DIR$/users_db.sql" />
             </array>
           </option>
         </State>

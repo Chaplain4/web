@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Table(name = "passport")
 @ToString
-public class Passport {
+public class Passport  {
 
     public Passport(int id){
         this.id = id;
@@ -37,7 +38,4 @@ public class Passport {
 
     @Column(name = "created_ts")
     private Timestamp createdTS;
-
-    @OneToOne(mappedBy = "passport")
-    private Employee employee;
 }

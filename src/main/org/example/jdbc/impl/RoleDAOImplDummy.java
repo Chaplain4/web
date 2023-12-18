@@ -15,9 +15,9 @@ import java.util.Set;
 
 public class RoleDAOImplDummy implements RoleDAO {
 
-    private static List<Role> roles = Arrays.asList(new Role(123, "Admin", "Admin role", null, null),
-            new Role(222, "Manager", "Manager role", null, null),
-            new Role(333, "General User", "Default role", null, null));
+//    private static List<Role> roles = Arrays.asList(new Role(123, "Admin", "Admin role", null, null),
+//            new Role(222, "Manager", "Manager role", null, null),
+//            new Role(333, "General User", "Default role", null, null));
 
 
     @Override
