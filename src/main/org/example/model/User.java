@@ -20,14 +20,14 @@ public class User {
     private Integer id;
     @Column()
     private String name;
-    @Column()
+    @Column(unique = true)
     private String email;
     @Column()
     private String pwd;
     @Column()
     private String details;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role", referencedColumnName = "name")
     private Role role;
 

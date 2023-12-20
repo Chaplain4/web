@@ -45,6 +45,7 @@ public class JPAService {
             configuration.addAnnotatedClass(Employee.class);
             configuration.addAnnotatedClass(Role.class);
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(Task.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             entityManagerFactory = configuration.buildSessionFactory(serviceRegistry);
         }
