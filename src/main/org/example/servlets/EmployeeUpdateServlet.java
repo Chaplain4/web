@@ -1,5 +1,8 @@
 package main.org.example.servlets;
 
+import main.org.example.dao.EmployeeDAO;
+import main.org.example.dao.OfficeDAO;
+import main.org.example.dao.PassportDAO;
 import main.org.example.jdbc.impl.EmployeeDAOImpl;
 import main.org.example.jdbc.impl.OfficeDAOImpl;
 import main.org.example.jdbc.impl.PassportDAOImpl;
@@ -18,15 +21,16 @@ import java.sql.Timestamp;
 
 @WebServlet("/update")
 public class EmployeeUpdateServlet extends HttpServlet {
-    private EmployeeDAOImpl edi = new EmployeeDAOImpl();
-    private OfficeDAOImpl odi = new OfficeDAOImpl();
-    private PassportDAOImpl pdi = new PassportDAOImpl();
+    private EmployeeDAO edi = new EmployeeDAO();
+    private OfficeDAO odi = new OfficeDAO();
+    private PassportDAO pdi = new PassportDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Employee employee = edi.findById(Integer.parseInt(req.getParameter("id")));
         Passport passport = employee.getPassport();
-        passport.setIndID((String) req.getParameter("ind_id"));
-        passport.setPersonalID((String) req.getParameter("personal_id"));
+        passport.setIndID(req.getParameter("ind_id"));
+        passport.setPersonalID(req.getParameter("personal_id"));
         String[] s1 = req.getParameter("exp_date").split("-");
         Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
         passport.setExpTS(date);
@@ -37,11 +41,12 @@ public class EmployeeUpdateServlet extends HttpServlet {
         employee.setAge(Integer.parseInt(req.getParameter("age")));
         employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
         if (!passport.equals(edi.findById(Integer.parseInt(req.getParameter("id"))).getPassport())) {
-            employee.setPassport(pdi.findById(pdi.createPassport2(passport)));
+            pdi.create(passport);
+            passport.setId(null);
+            employee.setPassport(passport);
         }
-        if (edi.updateEmployee(employee)) {
-            req.setAttribute("empls", edi.all());
-            ServletUtils.openJSP(req, resp, "employees");
-        }
+        edi.saveOrUpdate(employee);
+        req.setAttribute("empls", edi.findAll());
+        ServletUtils.openJSP(req, resp, "employees");
     }
 }

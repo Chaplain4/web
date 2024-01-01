@@ -2,6 +2,7 @@ package main.org.example.servlets;
 
 import main.homework.DogDAOImpl;
 import main.homework.model.Dog;
+import main.org.example.dao.EmployeeDAO;
 import main.org.example.jdbc.impl.EmployeeDAOImpl;
 import main.org.example.model.Employee;
 import main.org.example.util.HTMLTableBuilder;
@@ -33,10 +34,10 @@ public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter pw = resp.getWriter();
-        EmployeeDAOImpl edi = new EmployeeDAOImpl();
+        EmployeeDAO edi = new EmployeeDAO();
         info(req, "employee -> doPost()");
         if (req.getParameter("id") == null || req.getParameter("id").equals("")) {
-            Set<Employee> employees = edi.all();
+            Set<Employee> employees = (Set<Employee>) edi.findAll();
             List<Employee> employees1 = new ArrayList<>(employees);
             HTMLTableBuilder htmlTableBuilder = new HTMLTableBuilder("all the employees in db", true, employees1.size(), 8, 5, 5, 5);
             htmlTableBuilder.addTableHeader("id", "name", "lastname", "age", "office", "passport", "updatedTS", "createdTS");

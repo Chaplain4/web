@@ -1,5 +1,8 @@
 package main.org.example.servlets;
 
+import main.org.example.dao.EmployeeDAO;
+import main.org.example.dao.OfficeDAO;
+import main.org.example.dao.PassportDAO;
 import main.org.example.jdbc.impl.EmployeeDAOImpl;
 import main.org.example.jdbc.impl.OfficeDAOImpl;
 import main.org.example.jdbc.impl.PassportDAOImpl;
@@ -21,9 +24,9 @@ import java.sql.Timestamp;
 
 @WebServlet("/employees")
 public class EmployeesServlet extends HttpServlet {
-    private EmployeeDAOImpl edi = new EmployeeDAOImpl();
-    private OfficeDAOImpl odi = new OfficeDAOImpl();
-    private PassportDAOImpl pdi = new PassportDAOImpl();
+    private EmployeeDAO edi = new EmployeeDAO();
+    private OfficeDAO odi = new OfficeDAO();
+    private PassportDAO pdi = new PassportDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,29 +46,29 @@ public class EmployeesServlet extends HttpServlet {
                 case "U":
                     if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
                         Employee employee = (Employee) edi.findById(Integer.parseInt(req.getParameter("id")));
-                        req.setAttribute("offices", odi.all()); // add all offices into http request
+                        req.setAttribute("offices", odi.findAll()); // add all offices into http request
                         req.setAttribute("empl", employee);
                         ServletUtils.openJSP(req, resp, "update_empl"); // forward to jsp create form
                     } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     return;
                 case "C":
                     //create: show create form
-                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
-                        req.setAttribute("offices", odi.all()); // add all offices into http request
+                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin")) {
+                        req.setAttribute("offices", odi.findAll()); // add all offices into http request
                         ServletUtils.openJSP(req, resp, "create_empl"); // forward to jsp create form
                     } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     return;
             }
         }
-        req.setAttribute("empls", edi.all());
+        req.setAttribute("empls", edi.findAll());
         ServletUtils.openJSP(req, resp, "employees");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Passport passport = new Passport();
-        passport.setIndID((String) req.getParameter("ind_id"));
-        passport.setPersonalID((String) req.getParameter("personal_id"));
+        passport.setIndID(req.getParameter("ind_id"));
+        passport.setPersonalID(req.getParameter("personal_id"));
         String[] s1 = req.getParameter("exp_date").split("-");
         Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
         passport.setExpTS(date);
@@ -76,11 +79,14 @@ public class EmployeesServlet extends HttpServlet {
         employee.setLastName(req.getParameter("last_name"));
         employee.setAge(Integer.parseInt(req.getParameter("age")));
         employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
-        employee.setPassport(pdi.findById(pdi.createPassport2(passport)));
-        if (edi.createEmployee(employee)) {
-            req.setAttribute("empls", edi.all());
-            ServletUtils.openJSP(req, resp, "employees");
-        }
+        employee.setPassport(passport);
+
+        pdi.create(employee.getPassport());
+        employee.getPassport().setId(null);
+        employee.setCreatedTs(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
+        edi.create(employee);
+        req.setAttribute("empls", edi.findAll());
+        ServletUtils.openJSP(req, resp, "employees");
     }
 }
 

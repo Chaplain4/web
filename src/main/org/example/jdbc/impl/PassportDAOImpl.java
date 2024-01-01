@@ -26,7 +26,7 @@ public class PassportDAOImpl implements PassportDAO {
 //            throw new RuntimeException(e);
 //        }
         try {
-            JPAService.saveOrUpdate(passport);
+            JPAService.create(passport);
             return true;
         } catch (Throwable t) {
             t.printStackTrace();
@@ -53,7 +53,7 @@ public class PassportDAOImpl implements PassportDAO {
 //        }
 
         try {
-            JPAService.saveOrUpdate(passport);
+            JPAService.create(passport);
             return 1;
         } catch (Throwable t) {
             t.printStackTrace();

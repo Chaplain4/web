@@ -1,5 +1,6 @@
 <%@ page import="main.org.example.model.Office" %>
-<%@ page import="java.util.Set" %><%--
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   Date: 22.11.2023
   Time: 19:19
@@ -34,7 +35,7 @@
 
     <div class="group">
         <select name="office">
-            <% for (Office office : (Set<Office>) request.getAttribute("offices")) { %>
+            <% for (Office office : (List<Office>) request.getAttribute("offices")) { %>
             <option value='<%=office.getId()%>'><%=office.getId() + " - " + office.getTitle()%>
             </option>
             <%}%>

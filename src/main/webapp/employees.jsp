@@ -11,7 +11,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="sutils" uri=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<%@ taglib prefix="sutils" uri=""%>--%>
 <jsp:useBean id="sutils" class="main.org.example.util.SecUtils">
 </jsp:useBean>
 
@@ -37,10 +38,14 @@
             <th>PASSPORT</th>
             <th>UPDATED</th>
             <th>CREATED</th>
-            <c:if test="${sutils.hasRole(request, 'Admin', 'Manager')}">
+            <%
+                String admin = "Admin";
+                String manager = "Manager";
+            %>
+            <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
                 <th>Update</th>
             </c:if>
-            <c:if test="${sutils.hasRole(request, 'Admin')}">
+            <c:if test="<%=SecUtils.hasRole(request, admin)%>">
                 <th>Delete</th>
             </c:if>
         </tr>
@@ -54,19 +59,19 @@
                 <td>${empl.passport.indID}</td>
                 <td>${empl.updatedTs}</td>
                 <td>${empl.createdTs}</td>
-                <c:if test="${sutils.hasRole(request, 'Admin', 'Manager')}">
-                <td><a href="employees?action=U&id=${empl.id}"> UPDATE </a></td>
+                <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
+                    <td><a href="employees?action=U&id=${empl.id}"> UPDATE </a></td>
                 </c:if>
-                <c:if test="${sutils.hasRole(request, 'Admin')}">
-                <td><a href= "employees?action=D&id=${empl.id}"> DELETE </a></td>
+                <c:if test="<%=SecUtils.hasRole(request, admin)%>">
+                    <td><a href="employees?action=D&id=${empl.id}"> DELETE </a></td>
                 </c:if>
             </tr>
         </c:forEach>
     </table>
 
-<c:if test="${SecUtils.hasRole(request, 'Admin')}">
-<br><a href="employees?action=C"> CREATE </a>
-</c:if>
+    <c:if test="<%=SecUtils.hasRole(request, admin)%>">
+        <br><a href="employees?action=C"> CREATE </a>
+    </c:if>
 
 </c:if>
 </body>
