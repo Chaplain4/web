@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/img/*", "/css/*", "/js/*"})
+//@WebFilter(urlPatterns = {"/img/*", "/css/*", "/js/*"})
 public class ResourceFilter implements Filter {
 
 

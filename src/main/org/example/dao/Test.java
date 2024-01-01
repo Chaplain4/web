@@ -19,9 +19,11 @@ public class Test {
 //        task.setStatus("In progress");
 //        task.setPriority("Critical");
 //        task.setDeadline(new Date(new java.util.Date().getTime()));
-//        dao.create(task);
-        RoleDAO dao = new RoleDAO();
-        UserDAO dao2 = new UserDAO();
-        System.out.println(dao2.findAll());
+//        dao1.create(task);
+        EmployeeDAO dao = new EmployeeDAO();
+        Employee employee = dao.findById(1);
+        employee.getTasks().add(dao1.findById(1));
+        dao.update(employee);
+        //System.out.println(dao2.findAll());
     }
 }

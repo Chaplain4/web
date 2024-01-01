@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Dec 18, 2023 at 11:56 PM
--- Server version: 5.7.39-log
--- PHP Version: 7.2.34
+-- Хост: 127.0.0.1:3307
+-- Время создания: Янв 01 2024 г., 18:32
+-- Версия сервера: 5.7.39-log
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `users_db`
+-- База данных: `users_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dogs`
+-- Структура таблицы `dogs`
 --
 
 CREATE TABLE `dogs` (
@@ -35,7 +35,7 @@ CREATE TABLE `dogs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `dogs`
+-- Дамп данных таблицы `dogs`
 --
 
 INSERT INTO `dogs` (`id`, `age`, `name`, `breed`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `dogs` (`id`, `age`, `name`, `breed`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employees`
+-- Структура таблицы `employees`
 --
 
 CREATE TABLE `employees` (
@@ -63,7 +63,7 @@ CREATE TABLE `employees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `employees`
+-- Дамп данных таблицы `employees`
 --
 
 INSERT INTO `employees` (`id`, `name`, `last_name`, `age`, `office_id`, `passport_id`, `updated_ts`, `created_ts`) VALUES
@@ -78,7 +78,25 @@ INSERT INTO `employees` (`id`, `name`, `last_name`, `age`, `office_id`, `passpor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offices`
+-- Структура таблицы `employees_tasks`
+--
+
+CREATE TABLE `employees_tasks` (
+  `employee_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `employees_tasks`
+--
+
+INSERT INTO `employees_tasks` (`employee_id`, `task_id`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `offices`
 --
 
 CREATE TABLE `offices` (
@@ -93,7 +111,7 @@ CREATE TABLE `offices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `offices`
+-- Дамп данных таблицы `offices`
 --
 
 INSERT INTO `offices` (`id`, `title`, `address`, `phone_1`, `phone_2`, `postal_code`, `updated_ts`, `created_ts`) VALUES
@@ -110,7 +128,7 @@ INSERT INTO `offices` (`id`, `title`, `address`, `phone_1`, `phone_2`, `postal_c
 -- --------------------------------------------------------
 
 --
--- Table structure for table `passport`
+-- Структура таблицы `passport`
 --
 
 CREATE TABLE `passport` (
@@ -122,7 +140,7 @@ CREATE TABLE `passport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `passport`
+-- Дамп данных таблицы `passport`
 --
 
 INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) VALUES
@@ -145,7 +163,7 @@ INSERT INTO `passport` (`id`, `personal_id`, `ind_id`, `exp_ts`, `created_ts`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Структура таблицы `roles`
 --
 
 CREATE TABLE `roles` (
@@ -157,7 +175,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `roles`
+-- Дамп данных таблицы `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `details`, `created_ts`, `updated_ts`) VALUES
@@ -168,7 +186,7 @@ INSERT INTO `roles` (`id`, `name`, `details`, `created_ts`, `updated_ts`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stats`
+-- Структура таблицы `stats`
 --
 
 CREATE TABLE `stats` (
@@ -183,7 +201,7 @@ CREATE TABLE `stats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `stats`
+-- Дамп данных таблицы `stats`
 --
 
 INSERT INTO `stats` (`name`, `email`, `age`, `education`, `would_recommend`, `languages_known`, `comments`, `id`) VALUES
@@ -192,7 +210,7 @@ INSERT INTO `stats` (`name`, `email`, `age`, `education`, `would_recommend`, `la
 -- --------------------------------------------------------
 
 --
--- Table structure for table `students`
+-- Структура таблицы `students`
 --
 
 CREATE TABLE `students` (
@@ -206,7 +224,28 @@ CREATE TABLE `students` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Структура таблицы `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `deadline` date DEFAULT NULL,
+  `descr` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `priority` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `deadline`, `descr`, `priority`, `status`) VALUES
+(1, '2024-01-01', 'Fix bug', 'Critical', 'In progress');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
 --
 
 CREATE TABLE `users` (
@@ -222,7 +261,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `pwd`, `details`, `role`, `is_active`, `created_ts`, `updated_ts`) VALUES
@@ -232,17 +271,17 @@ INSERT INTO `users` (`id`, `name`, `email`, `pwd`, `details`, `role`, `is_active
 (10, 'Arthur', 'chaplain04@gmail.com', 'NlRZVTb6axc7Sjq3FAWkeQ', 'null', 'Admin', 1, '2023-11-14 20:31:04', '2023-11-19 12:49:35');
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `dogs`
+-- Индексы таблицы `dogs`
 --
 ALTER TABLE `dogs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `employees`
+-- Индексы таблицы `employees`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
@@ -250,109 +289,136 @@ ALTER TABLE `employees`
   ADD KEY `fk_office_id_offices_pk_id` (`office_id`);
 
 --
--- Indexes for table `offices`
+-- Индексы таблицы `employees_tasks`
+--
+ALTER TABLE `employees_tasks`
+  ADD PRIMARY KEY (`employee_id`,`task_id`),
+  ADD KEY `FKmoade2e0ibl8dm9619hdx0fwf` (`task_id`);
+
+--
+-- Индексы таблицы `offices`
 --
 ALTER TABLE `offices`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `passport`
+-- Индексы таблицы `passport`
 --
 ALTER TABLE `passport`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `roles`
+-- Индексы таблицы `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name_index` (`name`);
+  ADD UNIQUE KEY `name_index` (`name`),
+  ADD UNIQUE KEY `UK_ofx66keruapi6vyqpv6f2or37` (`name`);
 
 --
--- Indexes for table `stats`
+-- Индексы таблицы `stats`
 --
 ALTER TABLE `stats`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `students`
+-- Индексы таблицы `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `UK_e2rndfrsx22acpq2ty1caeuyw` (`email`);
 
 --
--- Indexes for table `users`
+-- Индексы таблицы `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_users_role_roles_fk_name` (`role`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `dogs`
+-- AUTO_INCREMENT для таблицы `dogs`
 --
 ALTER TABLE `dogs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `employees`
+-- AUTO_INCREMENT для таблицы `employees`
 --
 ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `offices`
+-- AUTO_INCREMENT для таблицы `offices`
 --
 ALTER TABLE `offices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
--- AUTO_INCREMENT for table `passport`
+-- AUTO_INCREMENT для таблицы `passport`
 --
 ALTER TABLE `passport`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `roles`
+-- AUTO_INCREMENT для таблицы `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `stats`
+-- AUTO_INCREMENT для таблицы `stats`
 --
 ALTER TABLE `stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `students`
+-- AUTO_INCREMENT для таблицы `students`
 --
 ALTER TABLE `students`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT для таблицы `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- Constraints for dumped tables
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `employees`
+-- Ограничения внешнего ключа таблицы `employees`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_office_id_offices_pk_id` FOREIGN KEY (`office_id`) REFERENCES `offices` (`id`),
   ADD CONSTRAINT `fk_passport_id_passport_pk_id` FOREIGN KEY (`passport_id`) REFERENCES `passport` (`id`);
 
 --
--- Constraints for table `users`
+-- Ограничения внешнего ключа таблицы `employees_tasks`
+--
+ALTER TABLE `employees_tasks`
+  ADD CONSTRAINT `FKe4nl6ar9w4psrsig9dco7bbsa` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
+  ADD CONSTRAINT `FKmoade2e0ibl8dm9619hdx0fwf` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_users_role_roles_fk_name` FOREIGN KEY (`role`) REFERENCES `roles` (`name`);

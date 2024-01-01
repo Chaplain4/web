@@ -16,7 +16,7 @@ public class OfficeDAOImpl implements OfficeDAO {
     public boolean createOffice(Office office) {
         try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO offices (title, address, `phone 1`, `phone 2`, postal_code, created_ts) "
+            String sql = "INSERT INTO offices (title, address, `phone_1`, `phone_2`, postal_code, created_ts) "
                     + "VALUES ('" + office.getTitle() + "', '" + office.getAddress()
                     + "', '" + office.getPhone1() + "', '" + office.getPhone2() + "', '"
                     + office.getPostalCode() + "', CURRENT_TIMESTAMP)";
@@ -37,8 +37,8 @@ public class OfficeDAOImpl implements OfficeDAO {
                 office.setId(id);
                 office.setTitle(rs.getString("title"));
                 office.setAddress(rs.getString("address"));
-                office.setPhone1(rs.getString("phone 1"));
-                office.setPhone2(rs.getString("phone 2"));
+                office.setPhone1(rs.getString("phone_1"));
+                office.setPhone2(rs.getString("phone_2"));
                 office.setPostalCode(rs.getInt("postal_code"));
                 office.setCreatedTS(rs.getTimestamp("created_ts"));
                 office.setUpdatedTS(rs.getTimestamp("updated_ts"));
@@ -68,7 +68,7 @@ public class OfficeDAOImpl implements OfficeDAO {
         try (Connection connection = DBUtils.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("UPDATE offices SET title = '" + office.getTitle() + "', address = '" + office.getAddress() +
-                    "', `phone 1` = '" + office.getPhone1() + "', `phone 2` = '" + office.getPhone2() + "', postal_code = '" + office.getPostalCode() +
+                    "', `phone_1` = '" + office.getPhone1() + "', `phone_2` = '" + office.getPhone2() + "', postal_code = '" + office.getPostalCode() +
                     "', updated_ts = '" + office.getUpdatedTS() + "' WHERE id = " + office.getId());
             if (findById(office.getId()).equals(office)) {
                 return true;
@@ -89,8 +89,8 @@ public class OfficeDAOImpl implements OfficeDAO {
                 office.setId(rs.getInt("id"));
                 office.setTitle(rs.getString("title"));
                 office.setAddress(rs.getString("address"));
-                office.setPhone1(rs.getString("phone 1"));
-                office.setPhone2(rs.getString("phone 2"));
+                office.setPhone1(rs.getString("phone_1"));
+                office.setPhone2(rs.getString("phone_2"));
                 office.setPostalCode(rs.getInt("postal_code"));
                 office.setCreatedTS(rs.getTimestamp("created_ts"));
                 office.setUpdatedTS(rs.getTimestamp("updated_ts"));
