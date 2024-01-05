@@ -40,12 +40,6 @@ public class Employee  {
     @JoinColumn(name = "passport_id", referencedColumnName = "id")
     private Passport passport;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "employees_tasks",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private Set<Task> tasks = new HashSet<>();
-
     @Column(name = "updated_ts")
     private Timestamp updatedTs;
 

@@ -32,6 +32,12 @@ public class Task {
     @Column
     private Date deadline;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_tasks",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "employees_tasks",
 //            joinColumns = @JoinColumn(name = "task_id"),

@@ -80,7 +80,6 @@ public class EmployeesServlet extends HttpServlet {
         employee.setAge(Integer.parseInt(req.getParameter("age")));
         employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
         employee.setPassport(passport);
-
         pdi.create(employee.getPassport());
         employee.getPassport().setId(null);
         employee.setCreatedTs(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
