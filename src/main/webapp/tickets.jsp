@@ -36,7 +36,7 @@
             %>
             <th>Update</th>
             <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
-                <th>Delete</th>
+                <th>Assign User</th>
             </c:if>
         </tr>
         <c:forEach items="${tasks}" var="task">
@@ -52,16 +52,17 @@
                 </td>
                 <td><a href="tickets?action=U&id=${task.id}"> UPDATE </a></td>
                 <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
-                    <td><a href="tickets?action=D&id=${task.id}"> DELETE </a></td>
+                    <td><a href="tickets?action=A&id=${task.id}"> ASSIGN USER </a></td>
                 </c:if>
             </tr>
         </c:forEach>
     </table>
 
     <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
-        <br><a href="employees?action=C"> CREATE </a>
+        <br><a href="tickets?action=C"> CREATE </a>
     </c:if>
 
 </c:if>
+
 </body>
 </html>

@@ -3,6 +3,8 @@ package main.org.example.servlets;
 import main.org.example.dao.*;
 import main.org.example.model.Employee;
 import main.org.example.model.Passport;
+import main.org.example.model.Task;
+import main.org.example.model.User;
 import main.org.example.util.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @WebServlet("/tickets")
 public class TicketsServlet extends HttpServlet {
@@ -25,15 +31,16 @@ public class TicketsServlet extends HttpServlet {
 
         if (req.getParameter("action") != null) {
             switch (req.getParameter("action")) {
-                case "D":
+                case "A":
                     if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
                         td.deleteById(Integer.parseInt(req.getParameter("id")));
                     } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     break;
                 case "U":
+                    Task ticket = td.findById(Integer.parseInt(req.getParameter("id")));
 //                    Employee employee = (Employee) edi.findById(Integer.parseInt(req.getParameter("id")));
 //                    req.setAttribute("offices", odi.findAll()); // add all offices into http request
-//                    req.setAttribute("empl", employee);
+                    req.setAttribute("ticket", ticket);
                     ServletUtils.openJSP(req, resp, "update_ticket");
                     return;
                 case "C":
@@ -45,30 +52,41 @@ public class TicketsServlet extends HttpServlet {
                     return;
             }
         }
-        req.setAttribute("tasks", td.findAll());
+        List<Task> tickets = td.findAll();
+        List<Task> ticketsToBeRemoved = new ArrayList<>();
+        if (ServletUtils.getUserFromSession(req).getRole().getName().equals("General User")) {
+            tickets.forEach(ticket -> {
+                if (!ticket.getUsers().contains(ServletUtils.getUserFromSession(req))) {
+                    ticketsToBeRemoved.add(ticket);
+                }
+            });
+            tickets.removeAll(ticketsToBeRemoved);
+        }
+        req.setAttribute("tasks", tickets);
         ServletUtils.openJSP(req, resp, "tickets");
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        Passport passport = new Passport();
-//        passport.setIndID(req.getParameter("ind_id"));
-//        passport.setPersonalID(req.getParameter("personal_id"));
-//        String[] s1 = req.getParameter("exp_date").split("-");
-//        Date date = new Date(Integer.parseInt(s1[0]) - 1900, Integer.parseInt(s1[1]), Integer.parseInt(s1[2]));
-//        passport.setExpTS(date);
-//        Date date1 = new Date(System.currentTimeMillis());
-//        passport.setCreatedTS(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
-//        Employee employee = new Employee();
-//        employee.setName(req.getParameter("name"));
-//        employee.setLastName(req.getParameter("last_name"));
-//        employee.setAge(Integer.parseInt(req.getParameter("age")));
-//        employee.setOffice(odi.findById((Integer.parseInt(req.getParameter("office")))));
-//        employee.setPassport(passport);
-//        pdi.create(employee.getPassport());
-//        employee.getPassport().setId(null);
-//        employee.setCreatedTs(new Timestamp(date1.getYear(), date1.getMonth(), date1.getDate(), 0, 0, 0, 0));
-//        edi.create(employee);
-        req.setAttribute("tasks", td.findAll());
+        TaskDAO td = new TaskDAO();
+        Task task = new Task();
+        task.setDescr(req.getParameter("descr"));
+        task.setStatus(req.getParameter("status"));
+        task.setPriority(req.getParameter("priority"));
+        String[] deadline = req.getParameter("deadline").split("-");
+        Date date = new Date(Integer.parseInt(deadline[0]) - 1900, Integer.parseInt(deadline[1]), Integer.parseInt(deadline[2]));
+        task.setDeadline(date);
+        td.create(task);
+        List<Task> tickets = td.findAll();
+        List<Task> ticketsToBeRemoved = new ArrayList<>();
+        if (ServletUtils.getUserFromSession(req).getRole().getName().equals("General User")) {
+            tickets.forEach(ticket -> {
+                if (!ticket.getUsers().contains(ServletUtils.getUserFromSession(req))) {
+                    ticketsToBeRemoved.add(ticket);
+                }
+            });
+            tickets.removeAll(ticketsToBeRemoved);
+        }
+        req.setAttribute("tasks", tickets);
         ServletUtils.openJSP(req, resp, "tickets");
     }
 }

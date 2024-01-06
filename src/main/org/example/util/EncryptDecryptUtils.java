@@ -89,8 +89,8 @@ public class EncryptDecryptUtils {
 
     public static void main(String[] args) throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
         EncryptDecryptUtils ed = new EncryptDecryptUtils();
-        String str1 = "NlRZVTb6axc7Sjq3FAWkeQ"; //382X@Vxp)A
-        System.out.println("Decrypted : " + decrypt(str1));
+        String str1 = "123"; //382X@Vxp)A
+        System.out.println("Encrypted : " + encrypt(str1));
     }
 }
 
