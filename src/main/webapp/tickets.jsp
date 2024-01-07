@@ -36,6 +36,7 @@
             %>
             <th>Update</th>
             <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
+                <th>Delete</th>
                 <th>Assign User</th>
             </c:if>
         </tr>
@@ -52,6 +53,7 @@
                 </td>
                 <td><a href="tickets?action=U&id=${task.id}"> UPDATE </a></td>
                 <c:if test="<%=SecUtils.hasRole(request, admin, manager)%>">
+                    <td><a href="tickets?action=D&id=${task.id}"> DELETE </a></td>
                     <td><a href="tickets?action=A&id=${task.id}"> ASSIGN USER </a></td>
                 </c:if>
             </tr>

@@ -31,17 +31,25 @@ public class TicketsServlet extends HttpServlet {
 
         if (req.getParameter("action") != null) {
             switch (req.getParameter("action")) {
-                case "A":
+                case "D":
                     if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
                         td.deleteById(Integer.parseInt(req.getParameter("id")));
                     } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     break;
                 case "U":
                     Task ticket = td.findById(Integer.parseInt(req.getParameter("id")));
-//                    Employee employee = (Employee) edi.findById(Integer.parseInt(req.getParameter("id")));
-//                    req.setAttribute("offices", odi.findAll()); // add all offices into http request
                     req.setAttribute("ticket", ticket);
                     ServletUtils.openJSP(req, resp, "update_ticket");
+                    return;
+                case "A":
+                    if (ServletUtils.getUserFromSession(req).getRole().getName().equals("Admin") || ServletUtils.getUserFromSession(req).getRole().getName().equals("Manager")) {
+                        Task ticket1 = td.findById(Integer.parseInt(req.getParameter("id")));
+                        req.setAttribute("ticket", ticket1);
+                        List<User> users = ud.findAll();
+                        users.removeAll(ticket1.getUsers());
+                        req.setAttribute("users", users);
+                        ServletUtils.openJSP(req, resp, "assign_ticket");
+                    } else ServletUtils.openGenericMessageJSP(req, resp, "Must be Admin or Manager");
                     return;
                 case "C":
                     //create: show create form

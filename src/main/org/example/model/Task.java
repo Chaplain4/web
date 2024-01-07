@@ -34,8 +34,8 @@ public class Task {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_tasks",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "email"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<User> users = new HashSet<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL)

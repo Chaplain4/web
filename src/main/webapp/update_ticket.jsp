@@ -55,7 +55,6 @@
     </c:if>
     <% } else { %>
     <div class="group">
-        <label>Description</label>
         <input type="hidden" name="descr" value="<%=task.getDescr()%>"><span class="highlight"></span><span
             class="bar"></span>
     </div>
@@ -67,7 +66,6 @@
     <div class="group">
         <input type="hidden" name="deadline" value="<%=task.getDeadline()%>"><span class="highlight"></span><span
             class="bar"></span>
-        <label>Deadline</label>
     </div>
     <% } %>
     <div class="group">
